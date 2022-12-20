@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty Characters</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <button>Click</button>
+            <button>Click</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="content">
+
+        </div>
+
+    </main>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+    $(() =>
+    {
+
+        const urlRickApi = 'https://rickandmortyapi.com/api/'
+        const urlRickChars = 'https://rickandmortyapi.com/api/character'
+
+        async function getRickAPI()
+        {
+            const response = await fetch(urlRickApi + 'character')
+            const data = await response.json()
+            const chars = data.results
+            console.log(chars[0]);
+
+            for (let i = 0; i <= chars.length; i++)
+            {
+                let imageUrl = chars[i].image
+                createCard(imageUrl, chars[i].name, chars[i].location.name, chars[i].species)
+            }
+        }
+
+        function createCard(imageUrl, nameChar, location, specie)
+        {
+            let card = document.createElement('div')
+            let img = document.createElement('img')
+            let data = document.createElement('div')
+            let name = document.createElement('h2')
+            let locationSpan = document.createElement('span')
+            let specieSpan = document.createElement('span')
+
+            card.classList.add('card')
+            img.setAttribute('src', imageUrl)
+            data.classList.add('data')
+            name.innerText = nameChar
+            locationSpan.innerText = 'Location: ' + location
+            specieSpan.innerText = 'Specie: ' + specie
+
+            $('.content').append(card)
+            card.append(img)
+            card.append(data)
+            data.append(name)
+            data.append(locationSpan)
+            data.append(specieSpan)
+        }
+
+        getRickAPI()
+
+    })  
+</script>
+
+</html>
