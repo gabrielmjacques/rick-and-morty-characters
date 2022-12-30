@@ -14,6 +14,18 @@ html {
     height: 100vh;
 }
 
+::-webkit-scrollbar {
+    background-color: #292929;
+
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to bottom, #90e92c, #588f19);
+
+    border-radius: 50px;
+}
+
 header {
     display: flex;
     align-items: center;
@@ -48,7 +60,25 @@ main {
     font-family: Arial, Helvetica, sans-serif;
 
     padding-top: 50px;
+    padding-bottom: 80px;
     min-height: 100vh;
+}
+
+.loading {
+    color: white;
+    position: fixed;
+    text-align: center;
+
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+
+    transform: translate(-50%, -50%);
+}
+
+.loading img {
+    width: 300px;
+    height: 300px;
 }
 
 .content {
@@ -58,10 +88,21 @@ main {
     flex-wrap: wrap;
     margin: auto;
 
+    opacity: 0.3;
     width: 95%;
+    min-height: 70vh;
     gap: 30px;
-    padding: 50px;
+    padding: 40px;
     border-radius: 20px;
+
+    animation: contentLoad 2s linear forwards;
+    animation-delay: 2s;
+}
+
+@keyframes contentLoad {
+    to {
+        opacity: 1;
+    }
 }
 
 .card {
@@ -71,14 +112,21 @@ main {
     flex-direction: column;
     overflow: hidden;
 
-    width: 23%;
+    width: 22%;
     border-radius: 10px;
     transition-duration: 0.3s;
 }
 
 .card:hover {
-    box-shadow: 0 0 20px #8eff61a4;
+    box-shadow: 0 0 20px #91e92c80;
     transform: scale(1.02);
+    animation: cardHover 1s infinite ease-in-out alternate;
+}
+
+@keyframes cardHover {
+    from {
+        box-shadow: 0 0 20px #90e92c;
+    }
 }
 
 .card img {
@@ -109,4 +157,33 @@ main {
 }
 
 
-@media (max-width: 500px) {}
+@media (max-width: 900px) {
+    .card {
+        width: 30%;
+    }
+}
+
+@media (max-width: 715px) {
+    #search {
+        width: 80%;
+    }
+
+    .loading img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .content {
+        width: 100%;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .card {
+        width: 45%;
+    }
+
+    .card h2 {
+        font-size: 1.3em;
+    }
+}

@@ -11,15 +11,18 @@
 </head>
 
 <body>
+    <div class="loading">
+        <h3>Loading...</h3>
+        <img src="assets/loading.gif" alt="">
+    </div>
+
     <header>
         <nav>
-            <input type="search" name="search" id="search" placeholder="Which character do you want to find?">
+            <input type="search" name="charsSearch" id="search" placeholder="Which character do you want to find?">
         </nav>
     </header>
 
     <main>
-
-
 
         <div class="content">
 
@@ -37,39 +40,41 @@
         /*API*/
         const urlRickApi = 'https://rickandmortyapi.com/api/'
 
-        async function getRickAPI()
+        async function getRickAPI(page)
         {
-            const response = await fetch(urlRickApi + 'character')
+            const response = await fetch(urlRickApi + 'character?page=' + page)
             const data = await response.json()
             const chars = data.results
+            console.log(chars);
 
             for (let i = 0; i <= chars.length; i++)
             {
                 let imageUrl = chars[i].image
-                createCard(imageUrl, chars[i].name, chars[i].location.name, chars[i].species, chars[i].status, chars[i].gender)
+                createCard(imageUrl, chars[i].name, chars[i].origin.name, chars[i].species, chars[i].status, chars[i].gender)
             }
+
         }
 
-        getRickAPI()
+        for (let i = 1; i < 42; i++) { getRickAPI(i) }
 
         /*CRIAR CARDS DE PERSONAGENS*/
-        function createCard(imageUrl, nameChar, location, specie, status, gender)
+        function createCard(imageUrl, nameChar, origin, specie, status, gender)
         {
             let card = document.createElement('div')
             let img = document.createElement('img')
             let data = document.createElement('div')
             let name = document.createElement('h2')
-            let locationSpan = document.createElement('span')
+            let originSpan = document.createElement('span')
             let specieSpan = document.createElement('span')
             let statusSpan = document.createElement('span')
             let genderSpan = document.createElement('span')
 
-            card.setAttribute('id', nameChar)
+            card.setAttribute('class', nameChar)
             card.classList.add('card')
             img.setAttribute('src', imageUrl)
             data.classList.add('data')
             name.innerText = nameChar
-            locationSpan.innerText = 'Location: ' + location
+            originSpan.innerText = 'Origin: ' + origin
             specieSpan.innerText = 'Specie: ' + specie
             specieSpan.innerText = 'Status: ' + status
             genderSpan.innerText = 'Gender: ' + gender
@@ -78,7 +83,7 @@
             card.append(img)
             card.append(data)
             data.append(name)
-            data.append(locationSpan)
+            data.append(originSpan)
             data.append(specieSpan)
             data.append(statusSpan)
             data.append(genderSpan)
@@ -94,10 +99,13 @@
             var value = $(this).val().toLowerCase();
             $(".card").filter(function ()
             {
-                $(this).toggle($(this).attr('id').toLowerCase().indexOf(value) >= 0)
+                $(this).toggle($(this).attr('class').toLowerCase().indexOf(value) >= 0)
             });
 
         })
+
+
+        $('.loading').delay(2000).fadeOut(1000)
 
     })  
 </script>
